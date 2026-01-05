@@ -1,34 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_app/core/widgets/app_texts_fields.dart';
 
-import '../../../core/constants/app_texts.dart';
-import '../../../core/theme/app_text_styles.dart';
-import '../../../core/widgets/app_texts_fields.dart';
-import '../controllers/signup_controller.dart';
+import '../../../../core/constants/app_texts.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../auth_controller/login_controller.dart';
 
-class SignupPage extends StatelessWidget {
-  const SignupPage({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SignupController(),
-      child: Consumer<SignupController>(
+      create: (_) => LoginController(),
+      child: Consumer<LoginController>(
         builder: (context, controller, _) {
           return Scaffold(
             body: Center(
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 420),
                 child: Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 40),
+
                       Text(
-                        AppTexts.signup,
+                        AppTexts.login,
                         style: AppTextStyles.headline(context),
                       ),
+
                       SizedBox(height: 32),
 
                       AppTextsField(
@@ -44,14 +46,26 @@ class SignupPage extends StatelessWidget {
                         controller: controller.passwordController,
                       ),
 
+                      SizedBox(height: 8),
+
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: Text(AppTexts.forgetPassword),
+                        ),
+                      ),
+
                       SizedBox(height: 24),
 
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: controller.isLoading
-                              ? null
-                              : () => controller.onSignupPressed(context),
+                          onPressed: () {
+                            controller.isLoading
+                                ? null
+                                : controller.onLoginPressed(context);
+                          },
                           child: controller.isLoading
                               ? SizedBox(
                                   height: 20,
@@ -60,7 +74,7 @@ class SignupPage extends StatelessWidget {
                                     strokeWidth: 2,
                                   ),
                                 )
-                              : Text(AppTexts.signup),
+                              : Text(AppTexts.login),
                         ),
                       ),
                     ],
